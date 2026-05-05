@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskFlow – To-Do Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-icon">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+            <path d="M9 11l3 3L22 4" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="brand-name">TaskFlow</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-filter="all">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/>
+            <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/>
+            <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/>
+            <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          All Tasks
+          <span class="nav-count" id="count-all">0</span>
+        </button>
+        <button class="nav-item" data-filter="pending">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Pending
+          <span class="nav-count" id="count-pending">0</span>
+        </button>
+        <button class="nav-item" data-filter="completed">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+            <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Completed
+          <span class="nav-count" id="count-completed">0</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn-clear-done" id="btnClearDone">
+          <svg width="15" height="15" fill="none" viewBox="0 0 24 24">
+            <polyline points="3 6 5 6 21 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M19 6l-1 14H6L5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Clear Completed
+        </button>
+      </div>
+    </aside>
+
+  
+    <main class="main">
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+          <div>
+            <h1 class="page-title">My Tasks</h1>
+            <p class="page-subtitle" id="dateLabel"></p>
+          </div>
+        </div>
+        <div class="avatar">V</div>
+      </header>
+
+     
+      <section class="stats-row">
+        <div class="stat-card">
+          <span class="stat-num" id="stat-total">0</span>
+          <span class="stat-lbl">Total</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num pending-num" id="stat-pending">0</span>
+          <span class="stat-lbl">Pending</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num done-num" id="stat-done">0</span>
+          <span class="stat-lbl">Done</span>
+        </div>
+        <div class="stat-card ring-card">
+          <div class="progress-ring-wrap">
+            <svg class="progress-ring" viewBox="0 0 44 44">
+              <circle class="ring-bg" cx="22" cy="22" r="18"/>
+              <circle class="ring-fill" id="ringFill" cx="22" cy="22" r="18"
+                stroke-dasharray="113" stroke-dashoffset="113"/>
+            </svg>
+            <span class="ring-pct" id="ringPct">0%</span>
+          </div>
+          <span class="stat-lbl">Progress</span>
+        </div>
+      </section>
+
+      
+      <section class="add-section">
+        <div class="add-card">
+          <div class="add-input-row">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" class="input-icon">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+              <line x1="12" y1="8" x2="12" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <input type="text" id="taskInput" class="task-input"
+              placeholder="Add a new task…" autocomplete="off" maxlength="120" />
+          </div>
+          <div class="add-controls">
+            <select id="taskCategory" class="add-select">
+              <option value="Weekly Challenge">Weekly Challenge</option>
+              <option value="Design Web">Design Web</option>
+              <option value="Personal">Personal</option>
+              <option value="Work">Work</option>
+              <option value="Other">Other</option>
+            </select>
+            <select id="taskPriority" class="add-select">
+              <option value="high">🔴 High</option>
+              <option value="medium" selected>🟡 Medium</option>
+              <option value="low">🟢 Low</option>
+            </select>
+            <button class="btn-add" id="btnAdd">
+              <svg width="15" height="15" fill="none" viewBox="0 0 24 24">
+                <line x1="12" y1="5" x2="12" y2="19" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="5" y1="12" x2="19" y2="12" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+              
+            </button>
+          </div>
+        </div>
+      </section>
+
+      
+      <div class="mobile-filters">
+        <button class="mf-chip active" data-filter="all">All</button>
+        <button class="mf-chip" data-filter="pending">Pending</button>
+        <button class="mf-chip" data-filter="completed">Completed</button>
+      </div>
+
+      <!-- Task list -->
+      <section class="task-section">
+        <div class="task-list" id="taskList"></div>
+        <div class="empty-state" id="emptyState">
+          <svg width="56" height="56" fill="none" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor"
+              stroke-width="1.5" stroke-dasharray="4 2"/>
+            <path d="M9 12h6M12 9v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <p>No tasks here.<br/>Start by adding one above!</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <!-- Mobile sidebar overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
